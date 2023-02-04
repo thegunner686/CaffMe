@@ -24,7 +24,7 @@ export default function App() {
         <Stack.Navigator screenOptions={({ route, navigation }) => ({
           headerShown: false,
         })}>
-          {user ? <Stack.Screen name="Main" component={HomeStack}></Stack.Screen> : <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>}
+          {true ? <Stack.Screen name="Main" component={HomeStack}></Stack.Screen> : <Stack.Screen name="Login" component={LoginScreen}></Stack.Screen>}
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>
