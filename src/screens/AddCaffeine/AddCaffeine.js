@@ -3,8 +3,9 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CylinderSlider from '../../components/CylinderSlider';
 import VerticalSlider from 'rn-vertical-slider';
+import { addCaffeineEntry } from '../../hooks/useCaffeineHistory';
 
-const AddCaffeineScreen = () => {
+const AddCaffeineScreen = ({ navigation }) => {
   const [level, setLevel] = useState(0);
   const [caffeine, setCaffeine] = useState(0);
   const [color, setColor] = useState('#FDFFFC');
@@ -51,7 +52,13 @@ const AddCaffeineScreen = () => {
         </View>
       </View>
       <View className="w-full flex-1 items-center">
-        <TouchableOpacity className="flex h-12 w-7/12 flex-col items-center justify-center rounded bg-ocean-green">
+        <TouchableOpacity
+          className="flex h-12 w-7/12 flex-col items-center justify-center rounded bg-ocean-green"
+          onPress={async () => {
+            await addCaffeineEntry({ caffeine });
+            navigation.navigate('Home');
+          }}
+        >
           <Text className="text-center text-lg font-bold text-baby-powder">Done</Text>
         </TouchableOpacity>
       </View>
