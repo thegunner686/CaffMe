@@ -17,14 +17,23 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "plugins": ["@react-native-google-signin/google-signin"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "io.cruzhacks.caffme",
+      "config": {
+        "googleSignIn": {
+          "reversedClientId": "com.googleusercontent.apps.298834162270-sa0io11p1jqraj66aps7cl7u80iusuce"
+        }
+      },
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "io.cruzhacks.caffme"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart } from 'react-native-chart-kit';
 import { StyleSheet, Dimensions, View, Text } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
 
 const width = Dimensions.get('window').width;
 
@@ -31,7 +32,10 @@ const CaffeineGraph = ({ data }) => {
   }, [data]);
 
   return (
-    <View className="m-4 h-52 rounded bg-dark-space-cadet pt-2 shadow-sm shadow-dark-space-cadet">
+    <Animated.View
+      entering={FadeIn.duration(500)}
+      className="m-4 h-52 rounded bg-dark-space-cadet pt-2 shadow-sm shadow-dark-space-cadet"
+    >
       <Text className="absolute left-2 top-2 font-bold text-baby-powder">{maxCaffeine}mg</Text>
       <View
         className="absolute top-6 self-center rounded border border-dashed border-shadow-blue"
@@ -48,7 +52,7 @@ const CaffeineGraph = ({ data }) => {
         yLabelsOffset={0}
         flatColor={true}
       />
-    </View>
+    </Animated.View>
   );
 };
 

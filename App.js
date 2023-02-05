@@ -16,7 +16,7 @@ export default function App() {
     const unsubscribe = onAuthStateChanged(auth, (_user) => {
       setUser(_user);
     });
-    signInAnonymously(auth);
+    // signInAnonymously(auth);
     return () => unsubscribe();
   });
   return (
