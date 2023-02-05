@@ -9,7 +9,7 @@ const BedTimeView = ({ time }) => {
         <Text className="text-sm font-bold text-shadow-blue">SLEEP HEALTH</Text>
         <Text className="text-4xl font-extrabold text-baby-powder">{time} hours</Text>
         <Text className="text-sm text-shadow-blue">
-          Until your caffine levels are low enough to get restful sleep
+          Until your caffeine levels are low enough to get optimal sleep quality
         </Text>
       </View>
     </View>

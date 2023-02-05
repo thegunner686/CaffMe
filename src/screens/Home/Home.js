@@ -8,6 +8,9 @@ import { useCaffeineHistory } from '../../hooks/useCaffeineHistory';
 import { useHistoryChange } from '../../hooks/useHistoryChanges';
 import { StatusBar } from 'expo-status-bar';
 import RDAView from '../../components/RDAView';
+import MaterialIcon from '@expo/vector-icons/MaterialIcons';
+import { auth } from '../../utils/firebase';
+import { signOut } from 'firebase/auth';
 
 const getFormattedHour = (hour) => {
   let res = '';
@@ -112,11 +115,17 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView className="flex flex-1 flex-col items-center bg-space-cadet">
       <StatusBar style="light" />
+      <TouchableOpacity
+        className="absolute top-16 right-3 flex h-10 w-10 items-center justify-center rounded-full  bg-opacity-50"
+        onPress={() => signOut(auth)}
+      >
+        <MaterialIcon name="logout" color="#FDFFFC" size={32} />
+      </TouchableOpacity>
       <View className="flex flex-col items-center justify-center">
         <Text className="text-sm text-shadow-blue">Current Caffeine Level</Text>
         <Text className="text-4xl font-extrabold text-baby-powder">{currentCaffeineLevel}mg</Text>
       </View>
-      <RDAView />
+      {currentCaffeineLevel >= 400 ? <RDAView /> : null}
       <CaffeineGraph data={graphData} />
       <IngestionList history={history} />
       <BedTimeView time={hoursToRest} />

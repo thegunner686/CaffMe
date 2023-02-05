@@ -9,7 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { TouchableOpacity, Text, View, Image } from 'react-native';
 
-const CylinderSlider = ({ level }) => {
+const CylinderSlider = ({ level, yerbOnly = false }) => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const CylinderSlider = ({ level }) => {
 
   return (
     <Animated.Image
-      source={images[index]}
+      source={images[yerbOnly ? 2 : index]}
       style={[{ resizeMode: 'contain', alignSelf: 'center' }, imageStyle]}
     />
   );

@@ -41,7 +41,7 @@ const IngestionList = ({ history }) => {
         <Text className="text-xs font-bold text-shadow-blue">
           {item.date === getToday() ? 'TODAY' : getFormattedMonthDay(item.date)}
         </Text>
-        <Text className="text-3xl font-bold text-baby-powder">{item.caffeine}mg</Text>
+        <Text className="text-3xl font-bold text-baby-powder">{parseInt(item.caffeine)}mg</Text>
         <Text className="text-xs text-baby-powder">{item.time}</Text>
       </Animated.View>
     );
@@ -50,14 +50,18 @@ const IngestionList = ({ history }) => {
   return (
     <Animated.View entering={FadeIn.duration(1000)} className="w-full">
       <Text className="ml-2 text-lg text-baby-powder">Your Caffeine History</Text>
-      <FlatList
-        data={history}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        horizontal={true}
-        style={{ width }}
-        className="pt-2 pb-2"
-      />
+      {history && history.length > 0 ? (
+        <FlatList
+          data={history}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          horizontal={true}
+          style={{ width }}
+          className="pt-2 pb-2"
+        />
+      ) : (
+        <Text className="font-regular ml-3 text-shadow-blue">No history yet</Text>
+      )}
     </Animated.View>
   );
 };

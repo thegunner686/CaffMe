@@ -20,7 +20,7 @@ const AddCaffeineScreen = ({ navigation }) => {
   const [triggerRefresh] = useHistoryChange((state) => [state.triggerRefresh]);
   const [imageTextResult, setImageTextResult] = useState('');
   const [selectedOption, setSelectedOption] = useState('mg');
-  const [mgfloz, setMgfloz] = useState(15);
+  const [mgfloz, setMgfloz] = useState(9.7);
   const [oz, setOz] = useState(0);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [showCamera, setShowCamera] = useState(false);
@@ -57,16 +57,16 @@ const AddCaffeineScreen = ({ navigation }) => {
       // const imageDataArrayBuffer = await response.arrayBuffer();
       // imageData = new Uint8Array(imageDataArrayBuffer);
     } catch (error) {
-      console.log('transform step');
+      // console.log('transform step');
       console.error(error);
     }
 
     try {
       const result = await getPrediction(res);
       const data = await result.json();
-      console.log({ data });
+      // console.log({ data });
     } catch (error) {
-      console.log('fetch step');
+      // console.log('fetch step');
       console.error(error);
     }
 
@@ -140,7 +140,7 @@ const AddCaffeineScreen = ({ navigation }) => {
       </View>
       <View className="justify-cente relative -top-24 flex w-full flex-row items-center">
         <View className=" flex h-96 flex-grow items-center justify-center">
-          <CylinderSlider level={level} />
+          <CylinderSlider level={level} yerbOnly={selectedOption === 'floz'} />
         </View>
         <View className="flex-shrink items-center justify-center p-2">
           <VerticalSlider
@@ -163,6 +163,7 @@ const AddCaffeineScreen = ({ navigation }) => {
         <TouchableOpacity
           className="flex h-12 w-9/12 flex-col items-center justify-center rounded bg-ocean-green shadow-sm shadow-dark-space-cadet"
           onPress={async () => {
+            if (caffeine == 0) return;
             await addCaffeineEntry({ caffeine });
             triggerRefresh();
             navigation.navigate('Home');
