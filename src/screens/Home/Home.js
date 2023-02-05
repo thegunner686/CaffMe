@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import CaffeineGraph from '../../components/CaffeineGraph';
 import IngestionList from '../../components/IngestionList';
 import { useCaffeineHistory } from '../../hooks/useCaffeineHistory';
+import { useHistoryChange } from '../../hooks/useHistoryChanges';
 
 const getFormattedHour = (hour) => {
   let res = '';
@@ -49,9 +50,21 @@ const labels = [
 ];
 
 const HomeScreen = ({ navigation }) => {
-  const { history, refreshHistory } = useCaffeineHistory();
+  const [date, setDate] = useState(new Date());
+  const { history, refreshHistory } = useCaffeineHistory(date);
   const [graphData, setGraphData] = useState({ labels: [], datasets: [{ data: [] }] });
   const [currentCaffeineLevel, setCurrentCaffeineLevel] = useState(0);
+  const [historyChange] = useHistoryChange((state) => [state.historyChange]);
+
+  useEffect(() => {
+    let d = new Date();
+    d.setDate(d.getDate() - 1);
+    setDate(d);
+  }, []);
+
+  useEffect(() => {
+    refreshHistory();
+  }, [historyChange]);
 
   useEffect(() => {
     if (graphData?.datasets && graphData.datasets[0].data.length > 0) {
@@ -92,16 +105,10 @@ const HomeScreen = ({ navigation }) => {
       <CaffeineGraph data={graphData} />
       <IngestionList history={history} />
       <TouchableOpacity
-        className="flex h-12 w-7/12 flex-col items-center justify-center rounded bg-ocean-green"
-        onPress={refreshHistory}
-      >
-        <Text className="text-center text-lg font-bold text-baby-powder">Refresh</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        className="flex h-12 w-7/12 flex-col items-center justify-center rounded bg-ocean-green"
+        className="mt-4 flex h-12 w-9/12 flex-col items-center justify-center rounded bg-ocean-green shadow-sm shadow-dark-space-cadet"
         onPress={() => navigation.navigate('AddCaffeine')}
       >
-        <Text className="text-center text-lg font-bold text-baby-powder">Add Caffeine Entry</Text>
+        <Text className="text-center text-lg font-bold text-baby-powder ">Add Caffeine Intake</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

@@ -4,11 +4,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import CylinderSlider from '../../components/CylinderSlider';
 import VerticalSlider from 'rn-vertical-slider';
 import { addCaffeineEntry } from '../../hooks/useCaffeineHistory';
+import { useHistoryChange } from '../../hooks/useHistoryChanges';
+import BackButton from '../../components/BackButton';
 
 const AddCaffeineScreen = ({ navigation }) => {
   const [level, setLevel] = useState(0);
   const [caffeine, setCaffeine] = useState(0);
   const [color, setColor] = useState('#FDFFFC');
+  const [triggerRefresh] = useHistoryChange((state) => [state.triggerRefresh]);
 
   useEffect(() => {
     let max = 500;
@@ -26,14 +29,25 @@ const AddCaffeineScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView className="flex flex-1 flex-col items-center justify-end bg-space-cadet">
-      <Text className="self-center pt-4 text-5xl font-bold text-baby-powder" style={{ color }}>
-        {caffeine}mg
-      </Text>
-      <View className="flex w-full flex-grow flex-row items-center">
-        <View className="h-auto w-9/12">
+      <View className="h-2/12 justify-betwee flex w-full flex-row items-center">
+        <View className="flex flex-shrink items-center justify-center p-2">
+          <BackButton onPress={() => navigation.navigate('Home')} />
+        </View>
+        <Text
+          className="flex-grow self-center pt-4 text-center text-5xl font-bold  text-baby-powder"
+          style={{ color }}
+        >
+          {caffeine}mg
+        </Text>
+        <View className="flex-shrink p-2">
+          <View className="h-10 w-10"></View>
+        </View>
+      </View>
+      <View className="h-11/12 items-cente flex w-full flex-grow flex-row justify-center">
+        <View className="flex h-full w-9/12 items-center justify-center">
           <CylinderSlider level={level} />
         </View>
-        <View className="flex-shrink p-2">
+        <View className="flex-shrink items-center justify-center p-2">
           <VerticalSlider
             value={level}
             disabled={false}
@@ -50,11 +64,12 @@ const AddCaffeineScreen = ({ navigation }) => {
           />
         </View>
       </View>
-      <View className="w-full flex-1 items-center">
+      <View className="h-2/12 mb-2 w-full items-center">
         <TouchableOpacity
-          className="flex h-12 w-7/12 flex-col items-center justify-center rounded bg-ocean-green"
+          className="flex h-12 w-9/12 flex-col items-center justify-center rounded bg-ocean-green shadow-sm shadow-dark-space-cadet"
           onPress={async () => {
             await addCaffeineEntry({ caffeine });
+            triggerRefresh();
             navigation.navigate('Home');
           }}
         >
