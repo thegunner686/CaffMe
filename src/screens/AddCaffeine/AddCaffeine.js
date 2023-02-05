@@ -20,7 +20,6 @@ const AddCaffeineScreen = ({ navigation }) => {
     } else if (caff < 300) {
       setColor('#FFE156');
     } else {
-      console.log(' set color ');
       setColor('#D66853');
     }
   }, [level, setColor]);
