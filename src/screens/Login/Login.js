@@ -11,23 +11,23 @@ export default LoginScreen = () => {
     <Image source={require('./assets/Coffme_1.png')} style={{width: 300, height: 300}} />
     <Text className='font-bold text-xl'>CaffMe</Text>
     <Text className='text-xs'>Make caffeine work for you!</Text>
-            <View style={styles.sectionContainer}>
-              <GoogleSigninButton
-                style={{width: 192, height: 48}}
-                size={GoogleSigninButton.Size.Wide}
-                color={GoogleSigninButton.Color.Dark}
-                onPress={this._signIn}
-              />
-            </View>
-            <View style={styles.buttonContainer}>
-              {!loggedIn && <Text>You are currently logged out</Text>}
-              {loggedIn && (
-                <Button
-                  onPress={this.signOut}
-                  title="LogOut"
-                  color="red"></Button>
-              )}
-            </View>
+    <View style={styles.sectionContainer}>
+      <GoogleSigninButton
+        style={{width: 192, height: 48}}
+        size={GoogleSigninButton.Size.Wide}
+        color={GoogleSigninButton.Color.Dark}
+        onPress={this._signIn}
+      />
+    </View>
+    <View style={styles.buttonContainer}>
+      {!loggedIn && <Text>You are currently logged out</Text>}
+      {loggedIn && (
+        <Button
+          onPress={this.signOut}
+          title="LogOut"
+          color="red"></Button>
+        )}
+    </View>
     </SafeAreaView>
 };
 
