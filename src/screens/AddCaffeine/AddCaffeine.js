@@ -75,7 +75,7 @@ const AddCaffeineScreen = ({ navigation }) => {
   };
 
   return showCamera ? (
-    <CameraView onCapture={onPictureCapture} />
+    <CameraView onCapture={onPictureCapture} goBack={() => setShowCamera(false)} />
   ) : (
     <SafeAreaView className="flex flex-1 flex-col items-center justify-end bg-space-cadet">
       <View className="h-1/12 absolute left-0 top-10 w-full flex-row items-center justify-between">
