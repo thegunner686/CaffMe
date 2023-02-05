@@ -7,10 +7,16 @@ import AddCaffeineScreen from '../AddCaffeine/AddCaffeine';
 const Stack = createNativeStackNavigator();
 
 const HomeStack = () => {
-  return <Stack.Navigator screenOptions={({ route, navigation }) => ({ headerShown: false })}>
-    <Stack.Screen name="AddCaffeine" component={AddCaffeineScreen}></Stack.Screen>
-    <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
-  </Stack.Navigator>
-}
+  return (
+    <Stack.Navigator
+      screenOptions={({ route, navigation }) => ({ headerShown: false })}
+      initialRouteName="Home"
+    >
+      <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
+
+      <Stack.Screen name="AddCaffeine" component={AddCaffeineScreen}></Stack.Screen>
+    </Stack.Navigator>
+  );
+};
 
 export default HomeStack;
