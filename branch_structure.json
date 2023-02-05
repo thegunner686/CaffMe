@@ -1,0 +1,33 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "feature/add-caffeine",
+    "feature/camera",
+    "feature/home",
+    "feature/ingestion-list",
+    "feature/login",
+    "feature/polish-1",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "feature/add-caffeine": "main",
+    "feature/camera": "main",
+    "feature/home": "main",
+    "feature/ingestion-list": "main",
+    "feature/login": "main",
+    "feature/polish-1": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "feature/add-caffeine",
+    "feature/camera",
+    "feature/home",
+    "feature/ingestion-list",
+    "feature/login",
+    "feature/polish-1",
+    "origin"
+  ]
+}
