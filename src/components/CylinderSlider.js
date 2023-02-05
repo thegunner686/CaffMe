@@ -17,23 +17,29 @@ const CylinderSlider = ({ level }) => {
       setIndex(0);
     } else if (level < 67) {
       setIndex(1);
-    } else {
+    } else if (level < 90) {
       setIndex(2);
+    } else {
+      setIndex(3);
     }
   }, [level]);
 
   const height = useDerivedValue(() => {
-    return level / 100;
+    return 0.6 + (0.5 * level) / 100;
   }, [level]);
 
   const imageStyle = useAnimatedStyle(() => {
-    return { transform: [{ scale: withSpring(height.value) }], width: withSpring(level * 3) };
+    return {
+      transform: [{ scale: withSpring(height.value) }],
+      width: withSpring(100 + level),
+    };
   }, [level]);
 
   const images = [
     require('../../assets/Latte.png'),
     require('../../assets/Coffee.png'),
     require('../../assets/Yerb.png'),
+    require('../../assets/BigYerb.png'),
   ];
 
   return (

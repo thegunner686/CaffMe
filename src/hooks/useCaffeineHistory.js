@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { db, auth } from '../utils/firebase';
 import {
   collection,
@@ -12,28 +12,34 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 
-export const getToday = () => {
-  const d = new Date();
+export const getToday = (d) => {
+  if (d === undefined) {
+    d = new Date();
+  }
   const today = `${d.getMonth()}/${d.getDate()}/${d.getFullYear()}`;
   return today;
 };
 
-export const getHour = () => {
-  const d = new Date();
+export const getHour = (d) => {
+  if (d === undefined) {
+    d = new Date();
+  }
   return d.getHours();
 };
 
-export const getMinutes = () => {
-  const d = new Date();
+export const getMinutes = (d) => {
+  if (d === undefined) {
+    d = new Date();
+  }
   return d.getMinutes();
 };
 
-export const useCaffeineHistory = () => {
+export const useCaffeineHistory = (date) => {
   if (auth.currentUser?.uid === null) return;
 
   const [history, setHistory] = useState([]);
 
-  const fetch = async () => {
+  const fetch = useCallback(async () => {
     const ref = collection(db, 'entries');
     let q = query(ref, where('user', '==', auth.currentUser.uid));
     q = query(q, where('date', '==', getToday()));
@@ -44,11 +50,12 @@ export const useCaffeineHistory = () => {
       docs.forEach((doc) => {
         w.push(doc.data());
       });
+      w.sort((a, b) => a.timestamp < b.timestamp);
       setHistory(w);
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [date]);
 
   useEffect(() => {
     fetch();
@@ -73,6 +80,7 @@ export const addCaffeineEntry = async (entry) => {
     hour,
     time,
     user: auth.currentUser.uid,
+    timestamp: Date.now(),
   });
   let id = docRef.id;
   await updateDoc(doc(db, 'entries', id), {
