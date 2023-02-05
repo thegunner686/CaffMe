@@ -20,7 +20,6 @@ const CylinderSlider = ({ level }) => {
     } else {
       setIndex(2);
     }
-    console.log({ level });
   }, [level]);
 
   const height = useDerivedValue(() => {

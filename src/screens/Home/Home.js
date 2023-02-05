@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CaffeineGraph from '../../components/CaffeineGraph';
+import IngestionList from '../../components/IngestionList';
 import { useCaffeineHistory } from '../../hooks/useCaffeineHistory';
 
 const getFormattedHour = (hour) => {
@@ -21,13 +22,13 @@ const decayFunction = (currentHour, ingestHour, ingestAmount) => {
 };
 
 const labels = [
-  '12:00am',
   '',
   '',
   '',
   '',
   '',
-  '6:00am',
+  '',
+  '5:00am',
   '',
   '',
   '',
@@ -39,7 +40,7 @@ const labels = [
   '',
   '',
   '',
-  '6:00pm',
+  '7:00pm',
   '',
   '',
   '',
@@ -89,6 +90,7 @@ const HomeScreen = ({ navigation }) => {
         <Text className="text-4xl font-extrabold text-baby-powder">{currentCaffeineLevel}mg</Text>
       </View>
       <CaffeineGraph data={graphData} />
+      <IngestionList history={history} />
       <TouchableOpacity
         className="flex h-12 w-7/12 flex-col items-center justify-center rounded bg-ocean-green"
         onPress={refreshHistory}
