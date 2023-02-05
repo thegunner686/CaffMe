@@ -9,17 +9,23 @@ import {
   setDoc,
   doc,
   addDoc,
+  updateDoc,
 } from 'firebase/firestore';
 
-const getToday = () => {
+export const getToday = () => {
   const d = new Date();
   const today = `${d.getMonth()}/${d.getDate()}/${d.getFullYear()}`;
   return today;
 };
 
-const getHour = () => {
+export const getHour = () => {
   const d = new Date();
   return d.getHours();
+};
+
+export const getMinutes = () => {
+  const d = new Date();
+  return d.getMinutes();
 };
 
 export const useCaffeineHistory = () => {
@@ -52,11 +58,24 @@ export const useCaffeineHistory = () => {
 };
 
 export const addCaffeineEntry = async (entry) => {
+  let hour = getHour();
+  let time =
+    hour < 11
+      ? hour === 0
+        ? `12:${getMinutes()}am`
+        : `${hour}:${getMinutes()}am`
+      : hour === 11
+      ? `12:${getMinutes()}pm`
+      : `${hour - 11}:${getMinutes()}pm`;
   const docRef = await addDoc(collection(db, 'entries'), {
     ...entry,
     date: getToday(),
-    hour: getHour(),
+    hour,
+    time,
     user: auth.currentUser.uid,
   });
-  return docRef.id;
+  let id = docRef.id;
+  await updateDoc(doc(db, 'entries', id), {
+    id,
+  });
 };
