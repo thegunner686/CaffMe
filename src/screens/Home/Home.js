@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import BedTimeView from '../../components/BedTimeView';
 import CaffeineGraph from '../../components/CaffeineGraph';
 import IngestionList from '../../components/IngestionList';
 import { useCaffeineHistory } from '../../hooks/useCaffeineHistory';
 import { useHistoryChange } from '../../hooks/useHistoryChanges';
+import { StatusBar } from 'expo-status-bar';
+import RDAView from '../../components/RDAView';
 
 const getFormattedHour = (hour) => {
   let res = '';
@@ -55,6 +58,7 @@ const HomeScreen = ({ navigation }) => {
   const [graphData, setGraphData] = useState({ labels: [], datasets: [{ data: [] }] });
   const [currentCaffeineLevel, setCurrentCaffeineLevel] = useState(0);
   const [historyChange] = useHistoryChange((state) => [state.historyChange]);
+  const [hoursToRest, setHoursToRest] = useState(0);
 
   useEffect(() => {
     let d = new Date();
@@ -69,7 +73,16 @@ const HomeScreen = ({ navigation }) => {
   useEffect(() => {
     if (graphData?.datasets && graphData.datasets[0].data.length > 0) {
       let hour = new Date().getHours();
-      setCurrentCaffeineLevel(Math.floor(graphData.datasets[0].data[hour]));
+      let curr = Math.floor(graphData.datasets[0].data[hour]);
+      setCurrentCaffeineLevel(curr);
+
+      for (let i = 0; true; i++) {
+        let test = decayFunction(i * 1.5, hour, curr);
+        if (test <= 50) {
+          setHoursToRest(i);
+          break;
+        }
+      }
     }
   }, [graphData]);
 
@@ -98,12 +111,15 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView className="flex flex-1 flex-col items-center bg-space-cadet">
+      <StatusBar style="light" />
       <View className="flex flex-col items-center justify-center">
         <Text className="text-sm text-shadow-blue">Current Caffeine Level</Text>
         <Text className="text-4xl font-extrabold text-baby-powder">{currentCaffeineLevel}mg</Text>
       </View>
+      <RDAView />
       <CaffeineGraph data={graphData} />
       <IngestionList history={history} />
+      <BedTimeView time={hoursToRest} />
       <TouchableOpacity
         className="mt-4 flex h-12 w-9/12 flex-col items-center justify-center rounded bg-ocean-green shadow-sm shadow-dark-space-cadet"
         onPress={() => navigation.navigate('AddCaffeine')}

@@ -31,7 +31,7 @@ export const getMinutes = (d) => {
   if (d === undefined) {
     d = new Date();
   }
-  return d.getMinutes();
+  return d.getMinutes().toString().padStart(2, '0');
 };
 
 export const useCaffeineHistory = (date) => {
